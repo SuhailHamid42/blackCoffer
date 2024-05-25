@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
+
 
 const app = express();
 
@@ -23,15 +25,14 @@ const fs = require('fs');
 const DataPoint = require('./models/DataPoint'); // Make sure the path is correct
 
 // MongoDB connection URL
-const url = 'mongodb://localhost:27017/visualizationDashboard';
-
+const mongoUrl = process.env.MONGO_URL;
 // Read JSON data
 const jsonData = JSON.parse(fs.readFileSync('jsondata.json', 'utf8'));
 
 // Connect to MongoDB and insert data
 (async function() {
     try {
-        await mongoose.connect(url, {
+        await mongoose.connect(mongoUrl, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
